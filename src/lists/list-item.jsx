@@ -49,6 +49,7 @@ const ListItem = React.createClass({
     style: React.PropTypes.object,
     secondaryText: React.PropTypes.node,
     secondaryTextLines: React.PropTypes.oneOf([1, 2]),
+    selected: React.PropTypes.bool,
   },
 
   //for passing default theme context to children
@@ -74,6 +75,7 @@ const ListItem = React.createClass({
       onNestedListToggle: () => {},
       onTouchStart: () => {},
       secondaryTextLines: 1,
+      selected: false,
     };
   },
 
@@ -121,6 +123,7 @@ const ListItem = React.createClass({
       primaryText,
       secondaryText,
       secondaryTextLines,
+      selected,
       style,
       ...other,
     } = this.props;
@@ -132,12 +135,13 @@ const ListItem = React.createClass({
     const twoLine = secondaryText && secondaryTextLines === 1;
     const threeLine = secondaryText && secondaryTextLines > 1;
     const hasCheckbox = leftCheckbox || rightToggle;
+    const selectedColor = hoverColor;
 
     const styles = {
       root: {
-        backgroundColor: (this.state.isKeyboardFocused || this.state.hovered) &&
+        backgroundColor: (selected && !this.state.hovered) ? selectedColor : ((this.state.isKeyboardFocused || this.state.hovered) &&
           !this.state.rightIconButtonHovered &&
-          !this.state.rightIconButtonKeyboardFocused ? hoverColor : null,
+          !this.state.rightIconButtonKeyboardFocused) ? hoverColor : null,
         color: textColor,
         display: 'block',
         fontSize: 16,
@@ -356,7 +360,7 @@ const ListItem = React.createClass({
           onMouseLeave={this._handleMouseLeave}
           onMouseEnter={this._handleMouseEnter}
           onTouchStart={this._handleTouchStart}
-          onTouchTap={onTouchTap}
+          onTouchTap={this._handleTouchTap}
           ref="enhancedButton"
           style={this.mergeStyles(styles.root, style)}>
           <div style={this.prepareStyles(styles.innerDiv, innerDivStyle)}>
@@ -506,6 +510,11 @@ const ListItem = React.createClass({
   _handleTouchStart(e) {
     this.setState({touch: true});
     this.props.onTouchStart(e);
+  },
+
+  _handleTouchTap(e) {
+    this.props.updateSelected(this.props.index);
+    if (this.props.onTouchTap) { this.props.onTouchTap(e) };
   },
 
   _pushElement(children, element, baseStyles, additionalProps) {

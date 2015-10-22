@@ -19,6 +19,9 @@ const List = React.createClass({
     insetSubheader: React.PropTypes.bool,
     style: React.PropTypes.object,
     subheader: React.PropTypes.node,
+    selectedLink: React.PropTypes.shape({
+      value: React.PropTypes.number,
+      requestChange: React.PropTypes.func}),
     subheaderStyle: React.PropTypes.object,
     zDepth: PropTypes.zDepth,
   },
@@ -86,16 +89,45 @@ const List = React.createClass({
       subheaderElement = <div style={mergedSubheaderStyles}>{subheader}</div>;
     }
 
+    let listItems;
+    if (this.props.selectedLink) {
+      listItems = React.Children.map(children, (child) => {
+        if (child.type.displayName === "ListItem") {
+          return React.cloneElement(child, {
+              key: child.props.index,
+              selected: this._getSelected(child.props.index),
+              updateSelected: this._updateSelectedIndex,
+            }
+          );
+        }
+        else {
+          return child;
+        }
+      });
+    }
+    else {
+      listItems = children;
+    }
+
     return (
       <Paper
         {...other}
         style={this.mergeStyles(styles.root, style)}
         zDepth={zDepth}>
         {subheaderElement}
-        {children}
+        {listItems}
       </Paper>
     );
   },
+
+  _getSelected(index) {
+    return this.props.selectedLink.value === index;
+  },
+
+  _updateSelectedIndex(index) {
+    this.props.selectedLink.requestChange(index);
+  },
+
 });
 
 module.exports = List;
