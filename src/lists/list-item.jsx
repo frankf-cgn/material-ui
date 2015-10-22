@@ -48,6 +48,7 @@ const ListItem = React.createClass({
     primaryText: React.PropTypes.node,
     secondaryText: React.PropTypes.node,
     secondaryTextLines: React.PropTypes.oneOf([1, 2]),
+    selected: React.PropTypes.bool,
   },
 
   //for passing default theme context to children
@@ -131,6 +132,7 @@ const ListItem = React.createClass({
     const twoLine = secondaryText && secondaryTextLines === 1;
     const threeLine = secondaryText && secondaryTextLines > 1;
     const hasCheckbox = leftCheckbox || rightToggle;
+    const selectedColor = '#eceff1';
 
     const styles = {
       root: {
@@ -355,7 +357,7 @@ const ListItem = React.createClass({
           onMouseLeave={this._handleMouseLeave}
           onMouseEnter={this._handleMouseEnter}
           onTouchStart={this._handleTouchStart}
-          onTouchTap={onTouchTap}
+          onTouchTap={this._handleTouchTap}
           ref="enhancedButton"
           style={this.mergeStyles(styles.root, style)}>
           <div style={this.prepareStyles(styles.innerDiv, innerDivStyle)}>
@@ -505,6 +507,11 @@ const ListItem = React.createClass({
   _handleTouchStart(e) {
     this.setState({touch: true});
     this.props.onTouchStart(e);
+  },
+
+  _handleTouchTap(e) {
+    this.props.updateSelected(this.props.index);
+    if (this.props.onTouchTap) { this.props.onTouchTap(e) };
   },
 
   _pushElement(children, element, baseStyles, additionalProps) {

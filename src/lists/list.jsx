@@ -42,6 +42,7 @@ const List = React.createClass({
   getInitialState () {
     return {
       muiTheme: this.context.muiTheme ? this.context.muiTheme : ThemeManager.getMuiTheme(DefaultRawTheme),
+      selectedIndex: 0,
     };
   },
 
@@ -85,6 +86,15 @@ const List = React.createClass({
       subheaderElement = <div style={mergedSubheaderStyles}>{subheader}</div>;
     }
 
+    let listItems = React.Children.map(children, (item, index) => {
+      return React.cloneElement(item, {
+          key: index,
+          selected: this._getSelected(item, index),
+          updateSelected: this._updateSelectedIndex,
+        }
+      )
+    });
+
     return (
       <Paper
         {...other}
@@ -95,6 +105,15 @@ const List = React.createClass({
       </Paper>
     );
   },
+
+  _getSelected(item, index) {
+    return this.state.selectedIndex === index;
+  },
+
+  _updateSelectedIndex(index) {
+    this.setState(Object.assign({}, this.state, {selectedIndex: index}));
+  },
+
 });
 
 module.exports = List;
