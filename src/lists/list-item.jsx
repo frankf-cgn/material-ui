@@ -132,7 +132,7 @@ const ListItem = React.createClass({
     const twoLine = secondaryText && secondaryTextLines === 1;
     const threeLine = secondaryText && secondaryTextLines > 1;
     const hasCheckbox = leftCheckbox || rightToggle;
-    const selectedColor = hoverColor;//'#eceff1';
+    const selectedColor = hoverColor;
 
     const styles = {
       root: {
