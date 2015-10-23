@@ -17,6 +17,7 @@ const List = React.createClass({
 
   propTypes: {
     insetSubheader: React.PropTypes.bool,
+    initialSelectedIndex: React.PropTypes.number,
     subheader: React.PropTypes.string,
     subheaderStyle: React.PropTypes.object,
     zDepth: PropTypes.zDepth,
@@ -42,7 +43,7 @@ const List = React.createClass({
   getInitialState () {
     return {
       muiTheme: this.context.muiTheme ? this.context.muiTheme : ThemeManager.getMuiTheme(DefaultRawTheme),
-      selectedIndex: 0,
+      selectedIndex: this.props.initialSelectedIndex,
     };
   },
 
@@ -86,13 +87,18 @@ const List = React.createClass({
       subheaderElement = <div style={mergedSubheaderStyles}>{subheader}</div>;
     }
 
-    let listItems = React.Children.map(children, (item, index) => {
-      return React.cloneElement(item, {
-          key: index,
-          selected: this._getSelected(item, index),
-          updateSelected: this._updateSelectedIndex,
-        }
-      )
+    let listItems = React.Children.map(children, (child, index) => {
+      if (child.type.displayName === "ListItem") {
+        return React.cloneElement(child, {
+            key: index,
+            selected: this._getSelected(child, index),
+            updateSelected: this._updateSelectedIndex,
+          }
+        );
+      }
+      else {
+        return child;
+      }
     });
 
     return (
@@ -101,7 +107,7 @@ const List = React.createClass({
         style={this.mergeStyles(styles.root, style)}
         zDepth={zDepth}>
         {subheaderElement}
-        {children}
+        {listItems}
       </Paper>
     );
   },

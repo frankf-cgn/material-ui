@@ -132,13 +132,13 @@ const ListItem = React.createClass({
     const twoLine = secondaryText && secondaryTextLines === 1;
     const threeLine = secondaryText && secondaryTextLines > 1;
     const hasCheckbox = leftCheckbox || rightToggle;
-    const selectedColor = '#eceff1';
+    const selectedColor = hoverColor;//'#eceff1';
 
     const styles = {
       root: {
-        backgroundColor: (this.state.isKeyboardFocused || this.state.hovered) &&
+        backgroundColor: (this.props.selected && !this.state.hovered) ? selectedColor : ((this.state.isKeyboardFocused || this.state.hovered) &&
           !this.state.rightIconButtonHovered &&
-          !this.state.rightIconButtonKeyboardFocused ? hoverColor : null,
+          !this.state.rightIconButtonKeyboardFocused) ? hoverColor : null,
         color: textColor,
         display: 'block',
         fontSize: 16,
