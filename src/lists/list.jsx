@@ -87,11 +87,11 @@ const List = React.createClass({
       subheaderElement = <div style={mergedSubheaderStyles}>{subheader}</div>;
     }
 
-    let listItems = React.Children.map(children, (child, index) => {
+    let listItems = React.Children.map(children, (child) => {
       if (child.type.displayName === "ListItem") {
         return React.cloneElement(child, {
-            key: index,
-            selected: this._getSelected(child, index),
+            key: child.props.index,
+            selected: this._getSelected(child.props.index),
             updateSelected: this._updateSelectedIndex,
           }
         );
@@ -112,7 +112,7 @@ const List = React.createClass({
     );
   },
 
-  _getSelected(item, index) {
+  _getSelected(index) {
     return this.state.selectedIndex === index;
   },
 
