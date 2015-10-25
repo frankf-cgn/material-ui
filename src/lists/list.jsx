@@ -17,7 +17,9 @@ const List = React.createClass({
 
   propTypes: {
     insetSubheader: React.PropTypes.bool,
-    initialSelectedIndex: React.PropTypes.number,
+    selectedLink: React.PropTypes.shape({
+      value: React.PropTypes.number,
+      requestChange: React.PropTypes.func}),
     subheader: React.PropTypes.string,
     subheaderStyle: React.PropTypes.object,
     zDepth: PropTypes.zDepth,
@@ -43,7 +45,6 @@ const List = React.createClass({
   getInitialState () {
     return {
       muiTheme: this.context.muiTheme ? this.context.muiTheme : ThemeManager.getMuiTheme(DefaultRawTheme),
-      selectedIndex: this.props.initialSelectedIndex,
     };
   },
 
@@ -88,7 +89,7 @@ const List = React.createClass({
     }
 
     let listItems = React.Children.map(children, (child) => {
-      if (child.type.displayName === "ListItem") {
+      if ( this.props.selectedLink && (child.type.displayName === "ListItem") ) {
         return React.cloneElement(child, {
             key: child.props.index,
             selected: this._getSelected(child.props.index),
@@ -113,11 +114,11 @@ const List = React.createClass({
   },
 
   _getSelected(index) {
-    return this.state.selectedIndex === index;
+    return this.props.selectedLink.value === index;
   },
 
   _updateSelectedIndex(index) {
-    this.setState(Object.assign({}, this.state, {selectedIndex: index}));
+    this.props.selectedLink.requestChange(index);
   },
 
 });
