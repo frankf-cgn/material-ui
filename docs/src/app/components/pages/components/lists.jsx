@@ -39,6 +39,11 @@ export default class ListsPage extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = { selectedIndex: 1 }
+  }
+
+  handleUpdateSelectedIndex = (index) => {
+    this.setState(Object.assign({}, this.state, {selectedIndex: index}));
   }
 
   render() {
@@ -65,6 +70,13 @@ export default class ListsPage extends React.Component {
             header: 'optional',
             desc: 'The style object to override subheader styles.',
           },
+          {
+            name: 'selectedLink',
+            type: 'valueLink',
+            header: 'optional',
+            desc: 'Makes List controllable. Highlights the ListItem whose index prop matches this "selectedLink.value". ' +
+              '"selectedLink.requestChange" represents a callback function to change that value (e.g. in state).',
+          },
         ],
       },
       {
@@ -87,6 +99,13 @@ export default class ListsPage extends React.Component {
             type: 'bool',
             header: 'default: false',
             desc: 'If true, the children will be indented by 72px. Only needed if there is no left avatar or left icon.',
+          },
+          {
+            name: 'index',
+            type: 'number',
+            header: 'optional',
+            desc: 'If selectedLink prop is passed to List component, this index prop is also required. It assigns a number ' +
+              'to the tab so that it can be hightlighted by the List.',
           },
           {
             name: 'leftAvatar',
@@ -640,6 +659,28 @@ export default class ListsPage extends React.Component {
                   </p>
                 }
                 secondaryTextLines={2} />
+            </List>
+          </MobileTearSheet>
+          <MobileTearSheet>
+            <List
+              selectedLink={{value: this.state.selectedIndex, requestChange: this.handleUpdateSelectedIndex}}
+              subheader="Contacts">
+              <ListItem
+                index={1}
+                primaryText="Brendan Lim"
+                leftAvatar={<Avatar src="images/ok-128.jpg" />} />
+              <ListItem index={2}
+                primaryText="Grace Ng"
+                leftAvatar={<Avatar src="images/uxceo-128.jpg" />} />
+              <ListItem index={3}
+                primaryText="Kerem Suer"
+                leftAvatar={<Avatar src="images/kerem-128.jpg" />} />
+              <ListItem index={4}
+                primaryText="Eric Hoffman"
+                leftAvatar={<Avatar src="images/kolage-128.jpg" />} />
+              <ListItem index={5}
+                primaryText="Raquel Parrado"
+                leftAvatar={<Avatar src="images/raquelromanp-128.jpg" />} />
             </List>
           </MobileTearSheet>
         </CodeExample>
