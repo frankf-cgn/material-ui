@@ -26,6 +26,7 @@ const ListItem = React.createClass({
     autoGenerateNestedIndicator: React.PropTypes.bool,
     disabled: React.PropTypes.bool,
     disableKeyboardFocus: React.PropTypes.bool,
+    index: React.PropTypes.number,
     initiallyOpen: React.PropTypes.bool,
     innerDivStyle: React.PropTypes.object,
     insetChildren: React.PropTypes.bool,
@@ -104,6 +105,7 @@ const ListItem = React.createClass({
       children,
       disabled,
       disableKeyboardFocus,
+      index,
       innerDivStyle,
       insetChildren,
       leftAvatar,
@@ -513,7 +515,7 @@ const ListItem = React.createClass({
   },
 
   _handleTouchTap(e) {
-    this.props.updateSelected(this.props.index);
+    if (this.props.updateSelected) { this.props.updateSelected(this.props.index) };
     if (this.props.onTouchTap) { this.props.onTouchTap(e) };
   },
 
