@@ -74,6 +74,7 @@ const ListItem = React.createClass({
       onNestedListToggle: () => {},
       onTouchStart: () => {},
       secondaryTextLines: 1,
+      selected: false,
     };
   },
 
@@ -121,6 +122,7 @@ const ListItem = React.createClass({
       primaryText,
       secondaryText,
       secondaryTextLines,
+      selected,
       style,
       ...other,
     } = this.props;
@@ -136,7 +138,7 @@ const ListItem = React.createClass({
 
     const styles = {
       root: {
-        backgroundColor: (this.props.selected && !this.state.hovered) ? selectedColor : ((this.state.isKeyboardFocused || this.state.hovered) &&
+        backgroundColor: (selected && !this.state.hovered) ? selectedColor : ((this.state.isKeyboardFocused || this.state.hovered) &&
           !this.state.rightIconButtonHovered &&
           !this.state.rightIconButtonKeyboardFocused) ? hoverColor : null,
         color: textColor,
