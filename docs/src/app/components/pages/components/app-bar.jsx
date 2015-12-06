@@ -1,7 +1,7 @@
 import React from 'react';
-import appBarSource from '!raw!material-ui/app-bar';
+import appBarCode from '!raw!material-ui/app-bar';
 import CodeExample from '../../code-example/code-example';
-import Description from '../../Description';
+import PropTypeDescription from '../../PropTypeDescription';
 import AppBarExampleIcon from '../../AppBar/ExampleIcon';
 import appBarExampleIconCode from '!raw!../../AppBar/ExampleIcon';
 import AppBarExampleIconButton from '../../AppBar/ExampleIconButton';
@@ -30,7 +30,7 @@ export default class AppBarPage extends React.Component {
         <CodeExample code={appBarExampleIconMenuCode}>
           <AppBarExampleIconMenu />
         </CodeExample>
-        <Description source={appBarSource}/>
+        <PropTypeDescription code={appBarCode}/>
       </div>
     );
   }

@@ -1,20 +1,23 @@
 import React from 'react';
 import marked from 'marked';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 require('./mui-github-markdown.css');
 
 const styles = {
   root: {
-    marginBottom: 22,
-    padding: '0 24px',
+    marginBottom: 14,
+    padding: '0 14px',
   },
 };
 
 const MarkdownElement = React.createClass({
   propTypes: {
-    text: React.PropTypes.string.isRequired,
+    text: React.PropTypes.string,
   },
-
+  mixins: [
+    PureRenderMixin,
+  ],
   getDefaultProps() {
     return {
       text: '',
